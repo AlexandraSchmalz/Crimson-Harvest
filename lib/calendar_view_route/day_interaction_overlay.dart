@@ -22,7 +22,7 @@ class DayInteractionOverlay extends StatelessWidget {
     return Offset(screenWidth - buttonSize.width, screenHeight - buttonSize.height * 2);
   }
 
-  String _getTimeSpanButtonValue(BuildContext context){
+  String _getTimeRangeButtonValue(BuildContext context){
     // if ... return AppLocalizations.of(context)?.end ?? "";
 
     return AppLocalizations.of(context)?.start ?? "";
@@ -36,7 +36,7 @@ class DayInteractionOverlay extends StatelessWidget {
       child: Column(
         children: [
           ElevatedButton(
-            child: Text(_getTimeSpanButtonValue(context)),
+            child: Text(_getTimeRangeButtonValue(context)),
             onPressed: null, 
             style: ElevatedButton.styleFrom(
               fixedSize: _calculateButtonSize(context),
