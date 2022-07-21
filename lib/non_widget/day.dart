@@ -6,7 +6,7 @@ class Day {
   late String _monthName;
   late int _year;
   String _activeDayKey = '';
-  //timerange stuff
+  bool _isInTimeRange = false;
 
   Day({required date, required context}){
     _day = date.day;
@@ -52,4 +52,7 @@ class Day {
   int get year => _year;
 
   String get activeDayKey => _activeDayKey;
+
+  bool get isInTimeRange => _isInTimeRange;
+  set isInTimeRange(value) => _isInTimeRange = value;
 }
