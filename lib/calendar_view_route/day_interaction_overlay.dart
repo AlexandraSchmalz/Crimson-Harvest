@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:crimson_harvest/providers/time_range_provider.dart';
-import 'package:crimson_harvest/non_widget/day.dart';
 
 class DayInteractionOverlay extends StatelessWidget {
   static const String routeDetailView = "/detail_view";
   OverlayEntry overlayEntry;
-  Day activeDay;
 
-  DayInteractionOverlay({required this.overlayEntry, required this.activeDay});
+  DayInteractionOverlay({required this.overlayEntry});
 
   Size _calculateButtonSize(BuildContext context){
     double screenHeight = MediaQuery.of(context).size.height;
@@ -29,9 +23,8 @@ class DayInteractionOverlay extends StatelessWidget {
   }
 
   String _getTimeRangeButtonValue(BuildContext context){
-    if (activeDay.isInTimeRange){
-      return AppLocalizations.of(context)?.end ?? "";
-    }
+    // if ... return AppLocalizations.of(context)?.end ?? "";
+
     return AppLocalizations.of(context)?.start ?? "";
   }
 
@@ -44,14 +37,7 @@ class DayInteractionOverlay extends StatelessWidget {
         children: [
           ElevatedButton(
             child: Text(_getTimeRangeButtonValue(context)),
-            onPressed: (){
-              if(_getTimeRangeButtonValue(context) == AppLocalizations.of(context)?.start){
-                context.read<TimeRange>().startTimeRange(context, activeDay.activeDayKey);
-              }
-              else{
-                context.read<TimeRange>().endTimeRange(context, activeDay.activeDayKey);
-              }
-            }, 
+            onPressed: null, 
             style: ElevatedButton.styleFrom(
               fixedSize: _calculateButtonSize(context),
               padding: EdgeInsets.all(24),

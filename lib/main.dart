@@ -6,7 +6,6 @@ import 'package:crimson_harvest/non_widget/day.dart';
 import 'package:crimson_harvest/l10n/l10n.dart';
 import 'package:crimson_harvest/providers/current_month_provider.dart';
 import 'package:crimson_harvest/providers/selected_day_provider.dart';
-import 'package:crimson_harvest/providers/time_range_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,7 +27,6 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => SelectedDayProvider(Day(date: DateTime.utc(1980), context: context))),
         ChangeNotifierProvider(create: (_) => CurrentMonthProvider()),
-        ChangeNotifierProvider(create: (_) => TimeRange()),
       ],
       child: MaterialApp(
         initialRoute: '/',
