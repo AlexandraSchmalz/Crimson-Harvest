@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:crimson_harvest/non_widget/day.dart';
 
 class DayInteractionOverlay extends StatelessWidget {
   static const String routeDetailView = "/detail_view";
   OverlayEntry overlayEntry;
+  late Box boxTR;
+  Day day;
 
-  DayInteractionOverlay({required this.overlayEntry});
+  DayInteractionOverlay({required this.overlayEntry, required this.day}){
+    openBox();
+  }
 
   Size _calculateButtonSize(BuildContext context){
     double screenHeight = MediaQuery.of(context).size.height;
@@ -22,11 +29,33 @@ class DayInteractionOverlay extends StatelessWidget {
     return Offset(screenWidth - buttonSize.width, screenHeight - buttonSize.height * 2);
   }
 
-  String _getTimeSpanButtonValue(BuildContext context){
-    // if ... return AppLocalizations.of(context)?.end ?? "";
-
+  String _getTimeRangeButtonValue(BuildContext context){
+    if(day.inTimeRange){
+      return AppLocalizations.of(context)?.end ?? "";
+    }
     return AppLocalizations.of(context)?.start ?? "";
   }
+
+  void startTimeRange(){
+    boxTR.put(day.activeDayKey, "first");
+    //boxTR.close();//?
+  }
+
+  void endTimeRange(){
+    if(boxTR.get(day.activeDayKey) == "first"){
+      // kill whole timerange
+      boxTR.delete(day.activeDayKey);
+    }
+    else{
+      boxTR.put(day.activeDayKey, "end");
+      //boxTR.close();//?
+    }
+  }
+
+  void openBox() async {
+    boxTR = await Hive.openBox('boxTR');
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +65,15 @@ class DayInteractionOverlay extends StatelessWidget {
       child: Column(
         children: [
           ElevatedButton(
-            child: Text(_getTimeSpanButtonValue(context)),
-            onPressed: null, 
+            child: Text(_getTimeRangeButtonValue(context)),
+            onPressed: (){
+              if(day.inTimeRange){
+                endTimeRange();
+              }
+              else{
+                startTimeRange();
+              }
+            }, 
             style: ElevatedButton.styleFrom(
               fixedSize: _calculateButtonSize(context),
               padding: EdgeInsets.all(24),

@@ -9,7 +9,9 @@ class DayGrid extends StatelessWidget{
   final Day activeDayObject;
   final bool isGapDay;
   late OverlayEntry overlayEntry;
+  
 
+  // same method in month_list: fix it
   bool isCurrentDay(){    // function or variable
     DateTime currentDay = DateTime.now();
     if(currentDay.year == activeDayObject.year && currentDay.month == activeDayObject.monthNum && currentDay.day == activeDayObject.day){
@@ -28,6 +30,9 @@ class DayGrid extends StatelessWidget{
     }
     else if(activeDayObjectIsSelected){
       return Colors.deepOrange;
+    }
+    else if(activeDayObject.inTimeRange){
+      return Colors.teal;
     }
     else if(isCurrentDay()){
       return Colors.pink;
@@ -49,7 +54,7 @@ class DayGrid extends StatelessWidget{
                 context.read<SelectedDayProvider>().removeSelection();
               },
             ),
-            DayInteractionOverlay(overlayEntry: overlayEntry),
+            DayInteractionOverlay(overlayEntry: overlayEntry, day: activeDayObject),
           ],
         );
       },
